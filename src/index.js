@@ -1,8 +1,28 @@
 const express =require( "express");
 const mongoose =require( "mongoose");
 const dotenv =require ("dotenv"); dotenv.config();
-const taskRoutes = require("../API/src/routes/task");
-const userRoutes = require("../API/src/routes/user");
+const taskRoutes = require("./routes/task");
+const userRoutes = require("./routes/user");
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+
+const swaggerOptions = {
+    swaggerDefinition: {
+        openapi: "3.0.0",
+        info: {
+            title: "Task Manager API",
+            version: "1.0.0",
+            description: "API documentation for the Task Manager application",
+        },
+        servers: [
+            {
+                url: `http://localhost:${process.env.PORT}`,
+            },
+        ],
+    },
+    apis: ["../src/routes/task.js"],
+};
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 const app = express()
 
@@ -16,6 +36,7 @@ app.listen(process.env.PORT, () =>
 
 //middlewares
 app.use(express.json())
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 //routes
 app.use("/task",taskRoutes);

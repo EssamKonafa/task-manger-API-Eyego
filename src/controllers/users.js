@@ -29,7 +29,7 @@ async function signIn(req, res) {
     if (!email) return res.status(400).json({ message: "email not found" });
     if (!password) return res.status(400).json({ message: "user password not found" });
     try {
-        const user = await UserModel.findOne({email});
+        const user = await UserModel.findOne({ email });
         if (!user) return res.status(404).json({ message: "invalid email" })
         if (!user.password) return res.status(500).json({ message: "user password is missing" });
         const validPassword = await bcrypt.compare(password, user.password)
@@ -85,4 +85,31 @@ async function signOut(req, res) {
     }
 }
 
-module.exports = { addUser, signIn, signOut }
+async function refreshToken(req, res) {
+    const cookies = req.cookies;
+    if (cookies) return res.status(400).json({ message: "refresh token not found" });
+    try {
+        if (!cookies.refreshToken) return res.status(401).json({ message: "No refresh token found" });
+        const refreshToken = cookies.refreshToken;
+        const user = await UserModel.findOne({ refreshToken });
+        if (!user) return res.status(403).json({ message: "Invalid refresh token" });
+        jwt.verify(
+            refreshToken,
+            process.env.REFRESH_TOKEN_SECRET,
+            (error, decoded) => {
+                if (error || user.id !== decoded.id) return res.status(403).json({ message: "Forbidden" });
+                const accessToken = jwt.sign(
+                    { id: decoded.id, name: decoded.name },
+                    process.env.ACCESS_TOKEN_SECRET,
+                    { expiresIn: '7d' }
+                );
+                return res.status(200).json({ message: "Access token refreshed successfully", userId: user.id });
+            }
+        );
+    } catch (error) {
+        console.error('Error occurred during token refresh', error);
+        return res.status(500).json({ message: "Internal server fkn error" });
+    }
+};
+
+module.exports = { addUser, signIn, signOut, refreshToken }
