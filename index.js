@@ -1,7 +1,8 @@
 const express =require( "express");
 const mongoose =require( "mongoose");
-const dotenv =require ("dotenv");
-dotenv.config();
+const dotenv =require ("dotenv"); dotenv.config();
+const taskRoutes = require("../API/src/routes/task");
+const userRoutes = require("../API/src/routes/user");
 
 const app = express()
 
@@ -13,12 +14,19 @@ app.listen(process.env.PORT, () =>
     console.log(`Listening on port ${process.env.PORT}`)
 );
 
+//middlewares
+app.use(express.json())
+
+//routes
+app.use("/task",taskRoutes);
+app.use("/user",userRoutes);
+
 //connecting to database
 mongoose
     .connect(process.env.DATABASE_LINK)
     .then(() => console.log("connected to database"))
-    .catch((err) => {
-        console.error("Error connecting to the database", err);
+    .catch((error) => {
+        console.error("Error connecting to database", error);
         process.exit(1);
     });
 
