@@ -1,6 +1,7 @@
 const express =require( "express");
 const mongoose =require( "mongoose");
 const dotenv =require ("dotenv"); dotenv.config();
+const cors = require("cors");
 const taskRoutes = require("./routes/task");
 const userRoutes = require("./routes/user");
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -29,6 +30,12 @@ const app = express()
 if (!process.env.PORT || !process.env.DATABASE_LINK) {
     throw new Error("Missing env variables!!");
 }
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: 'GET,PATCH,POST,DELETE',
+    credentials: true,
+}));
 
 app.listen(process.env.PORT, () =>
     console.log(`Listening on port ${process.env.PORT}`)

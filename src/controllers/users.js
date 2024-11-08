@@ -20,6 +20,9 @@ async function addUser(req, res) {
         return res.status(201).json(user);
     } catch (error) {
         console.error("error while creating user", error);
+        if (error.code === 11000 && error.keyPattern?.email) {
+            return res.status(409).json({ message: "Email already in use" });
+        }
         return res.status(500).json({ message: "internal server error" })
     }
 }
@@ -54,7 +57,7 @@ async function signIn(req, res) {
             secure: false,
             sameSite: "lax",
         });
-        return res.status(200).json({ message: "logged successfully", id: user.id })
+        return res.status(200).json({ message: "logged successfully", id: user.id,userName:user.name,userEmail:user.email })
     } catch (error) {
         console.error('error while signing user in', error);
         return res.status(500).json({ message: "internal server error" })

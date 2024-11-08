@@ -30,7 +30,8 @@ const auth = require("../middlewares/auth");
  *       401:
  *         description: Unauthorized
  */
-router.post("/", auth, task.addTask);
+// router.post("/",auth, task.addTask);
+router.post("/", task.addTask);
 
 /**
  * @swagger
@@ -57,6 +58,8 @@ router.post("/", auth, task.addTask);
  *                     type: string
  */
 router.get("/", task.getTasks);
+
+router.get('/:userId', task.getUserTasks)
 
 /**
  * @swagger
@@ -92,7 +95,9 @@ router.get("/", task.getTasks);
  *       404:
  *         description: Task not found
  */
-router.patch("/:taskId", auth, task.updateTask);
+// router.patch("/:taskId", auth, task.updateTask);
+router.patch("/:taskId/status", task.updateTaskStatus);
+router.patch("/:taskId", task.updateTaskContent);
 
 /**
  * @swagger
@@ -117,6 +122,7 @@ router.patch("/:taskId", auth, task.updateTask);
  *       404:
  *         description: Task not found
  */
-router.delete("/:taskId", auth, task.deleteTask);
+router.delete("/:taskId", task.deleteTask);
+// router.delete("/:taskId", auth, task.deleteTask);
 
 module.exports = router;
