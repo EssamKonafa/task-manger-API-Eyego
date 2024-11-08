@@ -1,5 +1,22 @@
-## Task Manager API
-A RESTful API for managing tasks. It provides functionality for user authentication, task creation, updating, retrieving, and deletion. The API is built with Express, MongoDB (via Mongoose), and uses JWT for authentication.
+# Task Manager API
+
+## Description
+
+Task Manager API is a RESTful API designed to manage tasks for users. The API allows for CRUD operations on tasks, user authentication, and user session management. It provides endpoints for task creation, updating, deletion, and fetching, along with secure user login and logout functionalities.
+
+## Table of Contents
+
+- [Features](#features)
+- [API Documentation](#api-documentation)
+- [Setup Instructions](#setup-instructions)
+- [Usage](#usage)
+- [License](#license)
+
+## Features
+
+- User authentication (Sign-up, login, logout)
+- Task CRUD operations (Create, Read, Update, Delete)
+- Secure user session management using refresh tokens
 
 ## Setup Instructions
 To run the Task Manager API locally, follow these steps:
