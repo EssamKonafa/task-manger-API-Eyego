@@ -17,9 +17,3 @@ npm install
 ```
 npm run dev
 ```
-## Technologies Used
-Node.js: JavaScript runtime environment
-Express.js: Web framework for building RESTful APIs
-MongoDB: NoSQL database for storing tasks and user data
-Mongoose: ODM (Object Data Modeling) library for MongoDB and Node.js
-JWT (JSON Web Tokens): For user authentication
