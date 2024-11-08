@@ -4,14 +4,6 @@
 
 Task Manager API is a RESTful API designed to manage tasks for users. The API allows for CRUD operations on tasks, user authentication, and user session management. It provides endpoints for task creation, updating, deletion, and fetching, along with secure user login and logout functionalities.
 
-## Table of Contents
-
-- [Features](#features)
-- [API Documentation](#api-documentation)
-- [Setup Instructions](#setup-instructions)
-- [Usage](#usage)
-- [License](#license)
-
 ## Features
 
 - User authentication (Sign-up, login, logout)
